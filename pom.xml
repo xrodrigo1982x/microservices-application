@@ -11,6 +11,10 @@
     <name>Aplicação principal</name>
     <description>Aplicação principal de microserviços</description>
 
+    <properties>
+        <appName>application-service</appName>
+    </properties>
+
     <parent>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-parent</artifactId>
@@ -106,6 +110,7 @@
     </dependencies>
 
     <build>
+        <finalName>${appName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,11 +130,35 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.tweet.application.ApplicationMain</mainClass>
+                    <finalName>${appName}</finalName>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.3.2</version>
+                <configuration>
+                    <imageName>micro/${project.artifactId}</imageName>
+                    <dockerDirectory>target/classes</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${appName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -147,7 +176,9 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
+                    <include>**/Dockerfile</include>
                     <include>**/*.yml</include>
+                    <include>**/*.cql</include>
                 </includes>
             </resource>
         </resources>
