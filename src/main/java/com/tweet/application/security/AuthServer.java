@@ -17,9 +17,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 @Configuration
 public class AuthServer extends AuthorizationServerConfigurerAdapter {
 
-    @Value("${access-token-validity-in-days}")
+    @Value("${access-token-validity-in-days:7}")
     private int accessTokenValidity;
-    @Value("${signing-key}")
+    @Value("${signing-key:oui214hmui23o4hm1pui3o2hp4m1o3h2m1o43}")
     private String signingKey;
 
     @Autowired

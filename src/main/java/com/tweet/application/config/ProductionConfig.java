@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Profile;
 @EnableFeignClients(basePackageClasses = UserRepository.class)
 @EnableCaching
 @EnableZuulProxy
-@DefaultProfile
 public class ProductionConfig {
 
     @Value("${hazelcast.endpoint:localhost:5701}")

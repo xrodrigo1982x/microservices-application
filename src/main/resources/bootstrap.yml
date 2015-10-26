@@ -1,5 +1,13 @@
 spring:
   application:
-    name: application
+    name: app-service
+  cloud:
+    config:
+      enabled: true
+      discovery:
+        enabled: true
 
-access-token-validity-in-days: 7
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka.host}
